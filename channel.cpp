@@ -85,8 +85,8 @@ void Channel::updatePWM() {
       for(uint8_t i=0; i<numOfEntries; i++) {
         uint32_t t1 = t[i];
         uint32_t t2 = t[(i+1)%numOfEntries];
-        uint8_t v1 = v[i];
-        uint8_t v2 = v[(i+1)%numOfEntries];
+        float v1 = v[i];
+        float v2 = v[(i+1)%numOfEntries];
         if(i+1 == numOfEntries) {
           t2 += 24*60*60;
           if(t_<t1) t_ += 24*60*60;
