@@ -1,0 +1,105 @@
+:root {
+  --c1: white;
+  --c2: #2E2E2E;
+  --c3: #E2E2E2;
+  --c4: #B9B9B9;
+}
+
+body {font-family: Arial;}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid var(--c4);
+    background-color: var(--c3);
+}
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+.tabcontent {
+    padding: 20px 20px;
+    border: 1px solid var(--c4);
+    border-top: none;
+}
+.tabcontent a{
+    color: black;
+}
+.indexTable {
+        border: 1px solid var(--c2);
+    border-collapse: collapse;
+    margin: 15px 5px 15px 10px;
+}
+.indexTable th {
+        font-weight: normal;
+    color: var(--c1);
+    background-color: var(--c2);
+        height: 30px;
+}
+.indexTable td {
+    text-align: center;
+    padding: 5px 15px 5px 15px;
+}
+.settingsMainTable {
+    margin: 10px 0px 10px 0px;
+    border: 1px solid var(--c4);
+    border-collapse: collapse;
+}
+
+.settingsMainTable th {
+    font-weight: normal;
+    text-align: left;
+    padding: 0px 15px 0px 10px;
+    height: 30px;
+    color: var(--c1);
+    background-color: var(--c2);
+}
+.settingsMainTable td {
+    text-align: right;
+    background-color: var(--c3);
+    padding: 0px 5px 0px 5px
+}
+.settingsMainTable td select {
+    width: 150px;
+}
+.settingsMainTable td input[type=number] {
+    width: 130px;
+}
+.settingsChannelTable {
+   border-collapse: collapse;
+   margin: 10px 0px 10px 0px;
+   border: 1px solid var(--c4);
+}
+.settingsChannelTable tr:nth-child(even) {
+  background-color: var(--c3);
+} 
+.settingsChannelTable th {
+   font-weight: normal;
+   color: var(--c1);
+   background-color: var(--c2);
+   color: #FFFFFF;
+   height: 30px;
+   padding: 0px 5px 0px 5px;
+}
+.settingsChannelTable td {
+    text-align: center;
+    padding: 0px 5px 0px 5px;
+}
+.settingsChannelTable input[type=number] {
+    width:100px;
+}
+#footer {
+    text-align: center;
+    padding: 10px 0px 15px 0px;
+    font-size: 12px
+}
+#footer a {
+    text-decoration: underline;
+    color: black;
+}
+
