@@ -36,9 +36,6 @@ bool startWifi() {
   
   WiFiManager wifiManager;
   wifiManager.autoConnect("ReefLight");
-
-  //WiFi.mode(WIFI_STA);
-  //WiFi.begin("schroedingersraven", "333beiissoskeilerei");
    
   WiFi.hostname(mdns_name);
   if (!MDNS.begin(mdns_name)) { DEBUG_WARNING("[startWifi] error setting up MDNS responder!"); }
