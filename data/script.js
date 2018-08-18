@@ -1,7 +1,7 @@
 // IDs for the websocket communication
-const ID_REQUEST_INDEX_FROM_SERVER = 0;
-const ID_SEND_INDEX_TO_CLIENT = 1;
-const ID_UPDATE_INDEX = 2;
+const ID_REQUEST_MANUAL_FROM_SERVER = 0;
+const ID_SEND_MANUAL_TO_CLIENT = 1;
+const ID_UPDATE_MANUAL = 2;
 
 const ID_REQUEST_SCHEDULE_FROM_SERVER = 10;
 const ID_SEND_SCHEDULE_TO_CLIENT = 11;
@@ -66,8 +66,8 @@ websocket.onmessage = function (messageEvent) {
   console.log("websocket RECEIVE MESSAGE: " + wsMsg);
   json = JSON.parse(wsMsg);
   switch(json.id) {
-    case ID_SEND_INDEX_TO_CLIENT:
-      displayIndex();
+    case ID_SEND_MANUAL_TO_CLIENT:
+      displayManual();
       break;    
     case ID_SEND_SCHEDULE_TO_CLIENT:
       displaySchedule();
@@ -85,10 +85,10 @@ function sendWebsocketMsg(msg) {
 
 
 /* 
- * functions for the index page
+ * functions for the manual page
  */
-// loads the index page
-function displayIndex() {
+// loads the manual page
+function displayManual() {
   content = "";
   content = "<table class=\"indexTable\"><tr><th></th><th>Name</th><th>Manual</th><th>Value</th><th></th></tr>";
   for(c=0; c<json[CHAR_CHANNELS].length; c++) {
@@ -99,20 +99,20 @@ function displayIndex() {
       // name
       content += "<td>"+channel[CHAR_CHANNEL_NAME]+"</td>";
       // manual
-      content += "<td><input id='manual_checkbox_"+c+"' onclick='updateIndex(\"checkbox\", "+c+");' type='checkbox'";
+      content += "<td><input id='manual_checkbox_"+c+"' onclick='updateManual(\"checkbox\", "+c+");' type='checkbox'";
         if(channel[CHAR_CHANNEL_MANUAL]) content += " checked";
         content += "></td>";
       // value
-      content += "<td><input id='slider_"+c+"' oninput='updateIndex(\"slider\", "+c+");' ";
-        content += "value='"+channel[CHAR_CHANNEL_VALUE]+"' type='range' min='0' max='100' step='0.5'></td>";
-        content += "<td><span id='value_num_"+c+"'>"+channel[CHAR_CHANNEL_VALUE]+"%</span></td></tr>";
+      content += "<td><input id='slider_"+c+"' onchange='updateManual(\"slider\", "+c+");' ";
+        content += "value='"+Math.round(channel[CHAR_CHANNEL_VALUE]*Math.pow(10,2))/Math.pow(10,2)+"' type='range' min='0' max='100' step='0.5'></td>";
+        content += "<td><span id='value_num_"+c+"'>"+Math.round(channel[CHAR_CHANNEL_VALUE]*Math.pow(10,2))/Math.pow(10,2)+"%</span></td></tr>";
     }
   }
   content  += "</table>";
   document.getElementById('content_div').innerHTML = content;  
 }
-// updates the changed values from the index page to the server
-function updateIndex(type, c) {
+// updates the changed values from the manual page to the server
+function updateManual(type, c) {
   if(type=='checkbox') {
     json[CHAR_CHANNELS][c][CHAR_CHANNEL_MANUAL] = document.getElementById('manual_checkbox_'+c).checked;
   }
@@ -122,12 +122,12 @@ function updateIndex(type, c) {
     json[CHAR_CHANNELS][c][CHAR_CHANNEL_MANUAL] = true;
     // update values
     json[CHAR_CHANNELS][c][CHAR_CHANNEL_VALUE] = document.getElementById('slider_'+c).value;
-    document.getElementById('value_num_'+c).innerHTML = document.getElementById('slider_'+c).value+"%";
+    document.getElementById('value_num_'+c).innerHTML = Math.round(document.getElementById('slider_'+c).value*Math.pow(10,2))/Math.pow(10,2)+"%";
   }
-  json.id = ID_UPDATE_INDEX;
+  json.id = ID_UPDATE_MANUAL;
   sendWebsocketMsg(JSON.stringify(json));
   if(type=='checkbox') {
-    var tmp = {"id":ID_REQUEST_INDEX_FROM_SERVER};
+    var tmp = {"id":ID_REQUEST_MANUAL_FROM_SERVER};
     sendWebsocketMsg(JSON.stringify(tmp));  
   }
 }
@@ -457,8 +457,8 @@ function openContent(id) {
   }
   document.getElementById('tab_'+id).style.backgroundColor = '#ccc';
   switch(id) {
-    case 'index':
-      var tmp = {"id":ID_REQUEST_INDEX_FROM_SERVER};
+    case 'manual':
+      var tmp = {"id":ID_REQUEST_MANUAL_FROM_SERVER};
       sendWebsocketMsg(JSON.stringify(tmp));
       break;
     case 'schedule':

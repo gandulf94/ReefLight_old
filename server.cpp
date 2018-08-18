@@ -25,9 +25,9 @@
 #include <ArduinoJson.h>
 
 // constants for the Websocket interaction 
-static const uint8_t ID_REQUEST_INDEX_FROM_SERVER = 0;
-static const uint8_t ID_SEND_INDEX_TO_CLIENT = 1;
-static const uint8_t ID_UPDATE_INDEX = 2;
+static const uint8_t ID_REQUEST_MANUAL_FROM_SERVER = 0;
+static const uint8_t ID_SEND_MANUAL_TO_CLIENT = 1;
+static const uint8_t ID_UPDATE_MANUAL = 2;
 
 static const uint8_t ID_REQUEST_SCHEDULE_FROM_SERVER = 10;
 static const uint8_t ID_SEND_SCHEDULE_TO_CLIENT = 11;
@@ -57,12 +57,12 @@ WebSocketsServer webSocket = WebSocketsServer(81); // websocket object
  *      to save data eg.
  *            
  *      id's are
- *      ID_REQUEST_INDEX_FROM_SERVER:
+ *      ID_REQUEST_MANUAL_FROM_SERVER:
  *        The "name", "color", "value", "manual" and "moonlight" of the active channels are send to the client
- *        in a json with id "ID_SEND_INDEX_TO_CLIENT" to display a table with the current values that can be changed 
- *        from the client.
+ *        in a json with id "ID_SEND_MANUAL_TO_CLIENT" to display a table with the current values that can be changed 
+ *        manually from the client.
  *        
- *      ID_UPDATE_INDEX:
+ *      ID_UPDATE_MANUAL:
  *        "value" and "mode" of the channels are updated according to the incomming JSON 
  *        and a PWM Update is forced
  *        
@@ -122,13 +122,13 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
            
       switch(id) {
 
-        case ID_REQUEST_INDEX_FROM_SERVER: {
+        case ID_REQUEST_MANUAL_FROM_SERVER: {
           DEBUG_INFO("ID_REQUEST_INDEX_FROM_SERVER");
 
           // create json
           JsonObject& jsonOut = jsonBuffer.createObject();
           // id
-          jsonOut["id"] = ID_SEND_INDEX_TO_CLIENT;
+          jsonOut["id"] = ID_SEND_MANUAL_TO_CLIENT;
           // channels array
           JsonArray& jsonChannels = jsonOut.createNestedArray(CHAR_CHANNELS);
           for(uint8_t c=0; c<numOfChannels; c++) {
@@ -152,8 +152,8 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
           break;
         }
 
-        case ID_UPDATE_INDEX: {
-          DEBUG_INFO("ID_UPDATE_INDEX");
+        case ID_UPDATE_MANUAL: {
+          DEBUG_INFO("ID_UPDATE_MANUAL");
           for(uint8_t c=0; c<numOfChannels; c++) {
             if(!channels[c].moonlight) {
               channels[c].manual = jsonIn[CHAR_CHANNELS][c][CHAR_CHANNEL_MANUAL];

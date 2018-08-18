@@ -69,14 +69,18 @@ bool saveDefaultSettings() {
     JsonArray& jsonChannelsChannelT = jsonChannelsChannel.createNestedArray(CHAR_CHANNEL_TIMES);
     // values array
     JsonArray& jsonChannelsChannelV = jsonChannelsChannel.createNestedArray(CHAR_CHANNEL_VALUES);
-    // some entries
-    jsonChannelsChannelT.add(9*60*60);
+    // some default entries
+    jsonChannelsChannelT.add(9*60*60+5*60*c);
     jsonChannelsChannelV.add(0);
-    jsonChannelsChannelT.add(10*60*60);
-    jsonChannelsChannelV.add(70);
-    jsonChannelsChannelT.add(20*60*60);
-    jsonChannelsChannelV.add(70);
-    jsonChannelsChannelT.add(21*60*60);
+    jsonChannelsChannelT.add(10*60*60+10*60*c);
+    jsonChannelsChannelV.add(50*(100.-float(5*c))/100.);
+    jsonChannelsChannelT.add(11*60*60+10*60*c);
+    jsonChannelsChannelV.add(70*(100.-float(5*c))/100.);
+    jsonChannelsChannelT.add(19*60*60-10*60*c);
+    jsonChannelsChannelV.add(70*(100.-float(5*c))/100.);
+    jsonChannelsChannelT.add(20*60*60-10*60*c);
+    jsonChannelsChannelV.add(50*(100.-float(5*c))/100.);
+    jsonChannelsChannelT.add(21*60*60-10*60*c);
     jsonChannelsChannelV.add(0);
   }
 
